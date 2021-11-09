@@ -101,4 +101,34 @@ public class MatrixItTest {
         it.next();
         assertThat(it.hasNext(), is(false));
     }
+
+    @Test
+    public void whenElementHashNextIsTrue() {
+        int[][] in = {
+                {1}, {}
+        };
+        MatrixIt it = new MatrixIt(in);
+        assertThat(it.hasNext(), is(true));
+    }
+
+    @Test
+    public void whenLotOfNextAndHasNext() {
+        int[][] in = {
+                {1, 2, 3}, {4}, {}, {5, 6}
+        };
+        MatrixIt it = new MatrixIt(in);
+        assertThat(it.hasNext(), is(true));
+        System.out.println(it.next());
+        assertThat(it.hasNext(), is(true));
+        System.out.println(it.next());
+        assertThat(it.hasNext(), is(true));
+        System.out.println(it.next());
+        assertThat(it.hasNext(), is(true));
+        System.out.println(it.next());
+        assertThat(it.hasNext(), is(true));
+        System.out.println(it.next());
+        assertThat(it.hasNext(), is(true));
+        System.out.println(it.next());
+        assertThat(it.hasNext(), is(false));
+    }
 }
