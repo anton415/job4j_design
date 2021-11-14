@@ -19,17 +19,14 @@ public class Generics {
         gen.printObject(third);
         System.out.println();
 
-//        gen.printBoundedWildCard(first);
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
         System.out.println();
 
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
-//        gen.printLowerBoundedWildCard(third);
     }
 
-    // Работает без ограничений, т.е. в него можно передавать коллекцию, которая хранит любые типы.
     public void printObject(List<?> list) {
         for (Iterator<?> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
@@ -37,7 +34,6 @@ public class Generics {
         }
     }
 
-    // должен иметь ограничение сверху и ограничиваться классом Predator.
     public void printBoundedWildCard(List<? extends Predator> list) {
         for (Iterator<? extends Predator> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
@@ -45,7 +41,6 @@ public class Generics {
         }
     }
 
-    // должен иметь ограничение снизу и ограничиваться классом Predator.
     public void printLowerBoundedWildCard(List<? super Predator> list) {
         for (Iterator<? super Predator> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
