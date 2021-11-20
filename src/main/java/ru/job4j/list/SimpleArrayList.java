@@ -4,6 +4,7 @@ import java.util.*;
 
 /**
  * Динамический список на массиве, аналог ArrayList.
+ * @see ArrayList
  * @param <T> любой тип для элемента.
  */
 public class SimpleArrayList<T> implements List<T> {
@@ -27,8 +28,13 @@ public class SimpleArrayList<T> implements List<T> {
      * Коллекция на основе массива.
      * @param capacity размер коллекции.
      */
+    @SuppressWarnings("unchecked")
     public SimpleArrayList(int capacity) {
-        this.container = (T[]) new Object[capacity];
+        if (capacity > 0) {
+            this.container = (T[]) new Object[capacity];
+        } else {
+            throw new IllegalArgumentException("Illegal Capacity: " + capacity);
+        }
     }
 
     /**
@@ -38,11 +44,18 @@ public class SimpleArrayList<T> implements List<T> {
     @Override
     public void add(T value) {
         if (size == container.length) {
-            container = Arrays.copyOf(container, size * 2);
+            increaseSize();
         }
         container[size] = value;
         size++;
         modCount++;
+    }
+
+    /**
+     * Увеличение размера коллекции. Размер увеличивается в двое.
+     */
+    private void increaseSize() {
+        container = Arrays.copyOf(container, size * 2);
     }
 
     /**
@@ -53,7 +66,7 @@ public class SimpleArrayList<T> implements List<T> {
      */
     @Override
     public T set(int index, T newValue) {
-        T oldValue = container[index];
+        T oldValue = get(index);
         container[index] = newValue;
         modCount++;
         return oldValue;
@@ -66,7 +79,7 @@ public class SimpleArrayList<T> implements List<T> {
      */
     @Override
     public T remove(int index) {
-        T oldValue = container[index];
+        T oldValue = get(index);
         System.arraycopy(container, index + 1, container, index, size - index);
         size--;
         modCount++;
@@ -80,6 +93,9 @@ public class SimpleArrayList<T> implements List<T> {
      */
     @Override
     public T get(int index) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
         return container[index];
     }
 
@@ -98,7 +114,7 @@ public class SimpleArrayList<T> implements List<T> {
      */
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Iterator<>() {
             /**
              * Количество изменений.
              * Если с момента создания итератора в коллекцию изменили,
