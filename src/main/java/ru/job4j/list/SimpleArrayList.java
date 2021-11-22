@@ -26,15 +26,20 @@ public class SimpleArrayList<T> implements List<T> {
 
     /**
      * Коллекция на основе массива.
+     * С емкостью 10.
+     */
+    @SuppressWarnings("unchecked")
+    public SimpleArrayList() {
+        this.container = (T[]) new Object[10];
+    }
+
+    /**
+     * Коллекция на основе массива.
      * @param capacity размер коллекции.
      */
     @SuppressWarnings("unchecked")
     public SimpleArrayList(int capacity) {
-        if (capacity > 0) {
-            this.container = (T[]) new Object[capacity];
-        } else {
-            throw new IllegalArgumentException("Illegal Capacity: " + capacity);
-        }
+        this.container = (T[]) new Object[capacity];
     }
 
     /**
@@ -81,6 +86,7 @@ public class SimpleArrayList<T> implements List<T> {
     public T remove(int index) {
         T oldValue = get(index);
         System.arraycopy(container, index + 1, container, index, size - index);
+        set(size - 1, null);
         size--;
         modCount++;
         return oldValue;
@@ -93,9 +99,7 @@ public class SimpleArrayList<T> implements List<T> {
      */
     @Override
     public T get(int index) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index, size);
         return container[index];
     }
 
