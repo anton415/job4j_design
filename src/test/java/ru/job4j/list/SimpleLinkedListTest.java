@@ -88,27 +88,4 @@ public class SimpleLinkedListTest {
         assertThat(second.next(), Is.is(2));
         assertThat(second.hasNext(), Is.is(false));
     }
-
-    @Test
-    public void whenRemoveItem() {
-        List<Integer> list = new SimpleLinkedList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.remove(1);
-        assertThat(list.size(), Is.is(2));
-        assertThat(list.get(0), Is.is(1));
-        assertThat(list.get(1), Is.is(3));
-    }
-
-    @Test
-    public void whenSetItem() {
-        List<Integer> list = new SimpleLinkedList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.set(1, 5);
-        assertThat(list.size(), Is.is(3));
-        assertThat(list.get(1), Is.is(5));
-    }
 }

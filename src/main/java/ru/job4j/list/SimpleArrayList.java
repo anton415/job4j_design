@@ -69,7 +69,6 @@ public class SimpleArrayList<T> implements List<T> {
      * @param newValue новое значение.
      * @return старое значение.
      */
-    @Override
     public T set(int index, T newValue) {
         T oldValue = get(index);
         container[index] = newValue;
@@ -82,7 +81,6 @@ public class SimpleArrayList<T> implements List<T> {
      * @param index индекс элемента.
      * @return старое значение.
      */
-    @Override
     public T remove(int index) {
         T oldValue = get(index);
         System.arraycopy(container, index + 1, container, index, size - index);
@@ -107,7 +105,6 @@ public class SimpleArrayList<T> implements List<T> {
      * Получение количества элементов в коллекции.
      * @return количество элементов в коллекции.
      */
-    @Override
     public int size() {
         return this.size;
     }

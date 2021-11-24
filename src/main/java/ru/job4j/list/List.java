@@ -8,30 +8,10 @@ public interface List<T> extends Iterable<T> {
     void add(T value);
 
     /**
-     * Изменение значения.
-     * @param index индекс элемента.
-     * @param newValue новое значение.
-     * @return старое значение.
-     */
-    T set(int index, T newValue);
-
-    /**
-     * Удаление элемента.
-     * @param index индекс элемента.
-     * @return старое значение.
-     */
-    T remove(int index);
-
-    /**
      * Получение элемента.
      * @param index индекс элемента.
      * @return элемент.
      */
     T get(int index);
 
-    /**
-     * Получение количества элементов в коллекции.
-     * @return количество элементов в коллекции.
-     */
-    int size();
 }

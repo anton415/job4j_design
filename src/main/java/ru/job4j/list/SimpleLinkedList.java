@@ -44,34 +44,6 @@ public class SimpleLinkedList<E> implements List<E> {
     }
 
     @Override
-    public E set(int index, E newValue) {
-        Objects.checkIndex(index, size);
-        Node<E> node = head;
-        for (int i = 0; i < index; i++) {
-            node = node.getNext();
-        }
-        node.setItem(newValue);
-        modCount++;
-        return node.getItem();
-    }
-
-    @Override
-    public E remove(int index) {
-        Objects.checkIndex(index, size);
-        Node<E> node = head;
-        for (int i = 0; i < index; i++) {
-            node = node.getNext();
-        }
-        Node<E> prev = node.getPrev();
-        Node<E> next = node.getNext();
-        prev.setNext(node.getNext());
-        next.setPrev(node.getNext());
-        size--;
-        modCount++;
-        return node.getItem();
-    }
-
-    @Override
     public E get(int index) {
         Objects.checkIndex(index, size);
         Node<E> node = head;
@@ -79,11 +51,6 @@ public class SimpleLinkedList<E> implements List<E> {
             node = node.getNext();
         }
         return node.getItem();
-    }
-
-    @Override
-    public int size() {
-        return this.size;
     }
 
     @Override
@@ -123,20 +90,12 @@ public class SimpleLinkedList<E> implements List<E> {
             return item;
         }
 
-        public void setItem(E item) {
-            this.item = item;
-        }
-
         public Node<E> getNext() {
             return next;
         }
 
         public void setNext(Node<E> next) {
             this.next = next;
-        }
-
-        public Node<E> getPrev() {
-            return prev;
         }
 
         public void setPrev(Node<E> prev) {
