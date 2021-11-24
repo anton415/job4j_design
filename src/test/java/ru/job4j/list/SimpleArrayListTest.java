@@ -22,11 +22,6 @@ public class SimpleArrayListTest {
     }
 
     @Test
-    public void whenAddThenSizeIncrease() {
-        Assert.assertEquals(3, list.size());
-    }
-
-    @Test
     public void whenAddAndGetByCorrectIndex() {
         Assert.assertEquals(Integer.valueOf(1), list.get(0));
     }
@@ -37,43 +32,12 @@ public class SimpleArrayListTest {
     }
 
     @Test
-    public void whenRemoveThenGetValueAndSizeDecrease() {
-        Assert.assertEquals(3, list.size());
-        Assert.assertEquals(Integer.valueOf(2), list.remove(1));
-        Assert.assertEquals(2, list.size());
-    }
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void whenRemoveByIncorrectIndexThenGetException() {
-        list.remove(5);
-    }
-
-    @Test
-    public void whenRemoveThenMustNotBeEmpty() {
-        list.remove(1);
-        Assert.assertEquals(Integer.valueOf(1), list.get(0));
-        Assert.assertEquals(Integer.valueOf(3), list.get(1));
-    }
-
-    @Test
     public void whenAddNullThenMustBeSameBehavior() {
         list = new SimpleArrayList<>(3);
         list.add(null);
         list.add(null);
-        Assert.assertEquals(2, list.size());
         Assert.assertNull(list.get(0));
         Assert.assertNull(list.get(1));
-    }
-
-    @Test
-    public void whenSetThenGetOldValueAndSizeNotChanged() {
-        Assert.assertEquals(Integer.valueOf(2), list.set(1, 22));
-        Assert.assertEquals(3, list.size());
-    }
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void whenSetByIncorrectIndexThenGetException() {
-        list.set(5, 22);
     }
 
     @Test
