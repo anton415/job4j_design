@@ -42,14 +42,13 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     public T deleteFirst() {
-        if (head != null) {
-            Node<T> first = head;
-            head = first.next;
-            first.next = null;
-            return first.value;
-        } else {
+        if (head == null) {
             throw new NoSuchElementException();
         }
+        Node<T> first = head;
+        head = first.next;
+        first.next = null;
+        return first.value;
     }
 
     public void addFirst(T value) {
