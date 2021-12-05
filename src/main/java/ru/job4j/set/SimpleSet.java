@@ -5,17 +5,19 @@ import ru.job4j.list.SimpleArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
-
+/**
+ * Коллекция на массиве не должна хранить дубликаты.
+ * @param <T>
+ */
 public class SimpleSet<T> implements Set<T> {
 
     private final SimpleArrayList<T> set = new SimpleArrayList<>();
 
     @Override
     public boolean add(T value) {
-        boolean isAdded = false;
-        if (!this.contains(value)) {
+        boolean isAdded = !this.contains(value);
+        if (isAdded) {
             set.add(value);
-            isAdded = true;
         }
         return isAdded;
     }
@@ -23,8 +25,8 @@ public class SimpleSet<T> implements Set<T> {
     @Override
     public boolean contains(T value) {
         boolean isContains = false;
-        for (T t : this) {
-            if (Objects.equals(t, value)) {
+        for (T element : set) {
+            if (Objects.equals(element, value)) {
                 isContains = true;
                 break;
             }
