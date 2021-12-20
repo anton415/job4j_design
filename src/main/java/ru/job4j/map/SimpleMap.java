@@ -42,11 +42,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
      */
     @Override
     public boolean put(K key, V value) {
-        boolean isPut;
-        int index = indexFor(hash(key));
         if (size > capacity * LOAD_FACTOR) {
             expand();
         }
+        boolean isPut;
+        int index = indexFor(hash(key));
         if (table[index] != null) {
             isPut = false;
         } else {
@@ -93,7 +93,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         for (MapEntry<K, V> mapEntry : table) {
             if (mapEntry != null) {
                 int newIndex = indexFor(hash(mapEntry.key));
-                newTable[newIndex] = new MapEntry<>(mapEntry.key, mapEntry.value);
+                newTable[newIndex] = mapEntry;
             }
         }
         table = newTable;
@@ -109,7 +109,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         V value = null;
         int index = indexFor(hash(key));
         MapEntry<K, V> entry = table[index];
-        if (entry != null && entry.key == key) {
+        if (entry != null && entry.key.equals(key)) {
             value = entry.value;
         }
         return value;
@@ -125,7 +125,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         boolean isRemove = false;
         int index = indexFor(hash(key));
         MapEntry<K, V> entry = table[index];
-        if (entry != null && entry.key == key) {
+        if (entry != null && entry.key.equals(key)) {
             table[index] = null;
             modCount++;
             size--;
