@@ -3,7 +3,6 @@ package ru.job4j.map;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 /**
  * Собственная карта.
@@ -45,12 +44,12 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean put(K key, V value) {
         boolean isPut;
         int index = indexFor(hash(key));
+        if (size > capacity * LOAD_FACTOR) {
+            expand();
+        }
         if (table[index] != null) {
             isPut = false;
         } else {
-            if (size > capacity * LOAD_FACTOR) {
-                expand();
-            }
             table[index] = new MapEntry<>(key, value);
             modCount++;
             size++;
@@ -65,7 +64,14 @@ public class SimpleMap<K, V> implements Map<K, V> {
      * @return хэш.
      */
     private int hash(K key) {
-        return Objects.hashCode(key);
+        int hash;
+        if (key == null) {
+            hash = 0;
+        } else {
+            hash = key.hashCode();
+            hash ^= hash >>> 16;
+        }
+        return hash;
     }
 
     /**
@@ -84,9 +90,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
     private void expand() {
         capacity *= 2;
         MapEntry<K, V>[] newTable = new MapEntry[capacity];
-        for (int i = 0; i < size; i++) {
-            MapEntry<K, V> mapEntry = table[i];
-            newTable[indexFor(mapEntry.hashCode())] = mapEntry;
+        for (MapEntry<K, V> mapEntry : table) {
+            if (mapEntry != null) {
+                int newIndex = indexFor(hash(mapEntry.key));
+                newTable[newIndex] = new MapEntry<>(mapEntry.key, mapEntry.value);
+            }
         }
         table = newTable;
     }
@@ -98,9 +106,13 @@ public class SimpleMap<K, V> implements Map<K, V> {
      */
     @Override
     public V get(K key) {
+        V value = null;
         int index = indexFor(hash(key));
         MapEntry<K, V> entry = table[index];
-        return entry != null ? entry.value : null;
+        if (entry != null && entry.key == key) {
+            value = entry.value;
+        }
+        return value;
     }
 
     /**
@@ -112,7 +124,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         boolean isRemove = false;
         int index = indexFor(hash(key));
-        if (table[index] != null) {
+        MapEntry<K, V> entry = table[index];
+        if (entry != null && entry.key == key) {
             table[index] = null;
             modCount++;
             size--;
