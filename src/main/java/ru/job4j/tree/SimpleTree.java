@@ -1,6 +1,7 @@
 package ru.job4j.tree;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Элементарная структура дерева.
@@ -22,29 +23,43 @@ public class SimpleTree<E> implements Tree<E> {
      */
     @Override
     public boolean add(E parent, E child) {
-        boolean rsl = false;
+        boolean result = false;
         Optional<Node<E>> parentNode = findBy(parent);
         Optional<Node<E>> childNode = findBy(child);
         if (parentNode.isPresent() && childNode.isEmpty()) {
             parentNode.get().children.add(new Node<>(child));
-            rsl = true;
+            result = true;
         }
-        return rsl;
+        return result;
+    }
+
+    /**
+     * Метод должен проверять количество дочерних элементов в дереве.
+     * @return если количество дочерних элементов > 2 - то дерево не бинарное, возвращается false.
+     */
+    public boolean isBinary() {
+        Predicate<Node<E>> predicate = node -> node.children.size() > 2;
+        return findByPredicate(predicate).isEmpty();
     }
 
     @Override
     public Optional<Node<E>> findBy(E value) {
-        Optional<Node<E>> rsl = Optional.empty();
+        Predicate<Node<E>> predicate = node -> node.value.equals(value);
+        return findByPredicate(predicate);
+    }
+
+    private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
+        Optional<Node<E>> result = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
         while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (el.value.equals(value)) {
-                rsl = Optional.of(el);
+            Node<E> node = data.poll();
+            if (condition.test(node)) {
+                result = Optional.of(node);
                 break;
             }
-            data.addAll(el.children);
+            data.addAll(node.children);
         }
-        return rsl;
+        return result;
     }
 }
