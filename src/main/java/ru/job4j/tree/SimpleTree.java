@@ -37,14 +37,12 @@ public class SimpleTree<E> implements Tree<E> {
      * @return если количество дочерних элементов > 2 - то дерево не бинарное, возвращается false.
      */
     public boolean isBinary() {
-        Predicate<Node<E>> predicate = node -> node.children.size() > 2;
-        return findByPredicate(predicate).isEmpty();
+        return findByPredicate(node -> node.children.size() > 2).isEmpty();
     }
 
     @Override
     public Optional<Node<E>> findBy(E value) {
-        Predicate<Node<E>> predicate = node -> node.value.equals(value);
-        return findByPredicate(predicate);
+        return findByPredicate(node -> node.value.equals(value));
     }
 
     private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
