@@ -23,14 +23,13 @@ public class SimpleTree<E> implements Tree<E> {
      */
     @Override
     public boolean add(E parent, E child) {
-        boolean result = false;
         Optional<Node<E>> parentNode = findBy(parent);
         Optional<Node<E>> childNode = findBy(child);
-        if (parentNode.isPresent() && childNode.isEmpty()) {
+        boolean isAdd = parentNode.isPresent() && childNode.isEmpty();
+        if (isAdd) {
             parentNode.get().children.add(new Node<>(child));
-            result = true;
         }
-        return result;
+        return isAdd;
     }
 
     /**
