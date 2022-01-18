@@ -13,7 +13,7 @@ public class ConfigTest {
         String path = "app.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.connection.username"),is("postgres"));
+        assertThat(config.value("hibernate.connection.username"), is("postgres"));
     }
 
     @Test
