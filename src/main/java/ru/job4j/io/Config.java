@@ -9,7 +9,7 @@ import java.util.StringJoiner;
 
 public class Config {
     private final String path;
-    private final Map<String, String> values = new HashMap<String, String>();
+    private final Map<String, String> values = new HashMap<>();
 
     public Config(final String path) {
         this.path = path;
@@ -18,10 +18,10 @@ public class Config {
     public void load() {
         try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
             in.lines().forEach(line -> {
-                if (!line.startsWith("#") && !line.isEmpty()) {
+                if (!line.startsWith("#") && line.contains("=")) {
                     String[] lineArray = line.split("=");
                     if (lineArray.length != 2) {
-                        throw new IllegalArgumentException();
+                        throw new IllegalArgumentException("Pattern violation file.");
                     }
                     values.put(lineArray[0], lineArray[1]);
                 }
