@@ -10,7 +10,7 @@ public class ConfigTest {
 
     @Test
     public void whenPair() {
-        String path = "app.properties";
+        String path = "data/app.properties";
         Config config = new Config(path);
         config.load();
         assertThat(config.value("hibernate.connection.username"), is("postgres"));
@@ -18,15 +18,36 @@ public class ConfigTest {
 
     @Test
     public void whenDontGetCommentedValue() {
-        String path = "app.properties";
+        String path = "data/app.properties";
         Config config = new Config(path);
         config.load();
         assertNull(config.value("hibernate.connection.password"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void whenWrongFileProperties() {
-        String path = "wrong-app.properties";
+    @Test(expected = PatternExceptionNoKey.class)
+    public void whenWrongPatternNokey() {
+        String path = "data/wrong-app-no-key.properties";
+        Config config = new Config(path);
+        config.load();
+    }
+
+    @Test(expected = PatternExceptionNoValue.class)
+    public void whenWrongPatternNoValue() {
+        String path = "data/wrong-app-no-value.properties";
+        Config config = new Config(path);
+        config.load();
+    }
+
+    @Test(expected = PatternExceptionNoEquals.class)
+    public void whenWrongPatternNoEquals() {
+        String path = "data/wrong-app-no-equals.properties";
+        Config config = new Config(path);
+        config.load();
+    }
+
+    @Test(expected = PatternExceptionMultipleEquals.class)
+    public void whenWrongPatternMultipleEquals() {
+        String path = "data/wrong-app-multiple-equals.properties";
         Config config = new Config(path);
         config.load();
     }

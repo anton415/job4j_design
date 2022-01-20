@@ -18,11 +18,21 @@ public class Config {
     public void load() {
         try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
             in.lines().forEach(line -> {
-                if (!line.startsWith("#") && line.contains("=")) {
-                    String[] lineArray = line.split("=");
-                    if (lineArray.length != 2) {
-                        throw new IllegalArgumentException("Pattern violation file.");
+                if (!line.startsWith("#") && !line.isEmpty()) {
+                    if (!line.contains("=")) {
+                        throw new PatternExceptionNoEquals("No \"=\" character.");
                     }
+                    String[] lineArray = line.split("=");
+                    if (lineArray.length > 2) {
+                        throw new PatternExceptionMultipleEquals("Multiple \"=\" character.");
+                    }
+                    if (lineArray[0].equals("")) {
+                        throw new PatternExceptionNoKey("No key.");
+                    }
+                    if (lineArray.length < 2) {
+                        throw new PatternExceptionNoValue("No value.");
+                    }
+
                     values.put(lineArray[0], lineArray[1]);
                 }
             });
@@ -47,6 +57,6 @@ public class Config {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Config("app.properties"));
+        System.out.println(new Config("data/app.properties"));
     }
 }

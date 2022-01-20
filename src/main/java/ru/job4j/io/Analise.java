@@ -37,6 +37,6 @@ public class Analise {
 
     public static void main(String[] args) {
         Analise analise = new Analise();
-        analise.unavailable("server.log", "analise.log");
+        analise.unavailable("data/server.log", "data/analise.log");
     }
 }
