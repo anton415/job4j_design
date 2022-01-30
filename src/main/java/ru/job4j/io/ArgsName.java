@@ -19,11 +19,11 @@ public class ArgsName {
             throw new IllegalArgumentException("No arguments. You should to add argument.");
         }
         for (String arg : args) {
-            if (!arg.contains("-")) {
+            if (!arg.startsWith("-")) {
                 throw new IllegalArgumentException("Key must start with \"-\".");
             }
             if (!arg.contains("=")) {
-                throw new IllegalArgumentException("Key must start with \"=\".");
+                throw new IllegalArgumentException("Argument must contain \"=\" symbol.");
             }
             if (!arg.substring(arg.indexOf("-") + 1).contains("=")) {
                 throw new IllegalArgumentException("Symbol \"=\" must be after \"-\".");
