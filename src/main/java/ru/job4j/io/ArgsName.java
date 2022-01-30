@@ -8,6 +8,9 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
+        if (!values.containsKey(key)) {
+            throw new IllegalArgumentException("Key does not exist.");
+        }
         return values.get(key);
     }
 
@@ -16,6 +19,15 @@ public class ArgsName {
             throw new IllegalArgumentException("No arguments. You should to add argument.");
         }
         for (String arg : args) {
+            if (!arg.contains("-")) {
+                throw new IllegalArgumentException("Key must start with \"-\".");
+            }
+            if (!arg.contains("=")) {
+                throw new IllegalArgumentException("Key must start with \"=\".");
+            }
+            if (!arg.substring(arg.indexOf("-") + 1).contains("=")) {
+                throw new IllegalArgumentException("Symbol \"=\" must be after \"-\".");
+            }
             String key = arg.substring(arg.indexOf("-") + 1, arg.indexOf("="));
             String value = arg.substring(arg.indexOf('=') + 1);
             if (key.isEmpty() || value.isEmpty()) {

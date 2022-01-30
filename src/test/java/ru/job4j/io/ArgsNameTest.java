@@ -35,4 +35,19 @@ public class ArgsNameTest {
     public void whenWrongSomeArgument() {
         ArgsName.of(new String[] {"-encoding=UTF-8", "-Xmx="});
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenKeyStartWithWrongSymbol() {
+        ArgsName.of(new String[] {"Xmx=512"});
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenKeyWithoutEqualSymbol() {
+        ArgsName.of(new String[] {"-Xmx512"});
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenEqualSymbolMustBeAfterStartSymbol() {
+        ArgsName.of(new String[] {"=Xmx-512"});
+    }
 }
