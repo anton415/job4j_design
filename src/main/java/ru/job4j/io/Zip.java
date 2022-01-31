@@ -23,15 +23,15 @@ public class Zip {
         }
     }
 
-    public static void packSingleFile(File source, File target) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            zip.putNextEntry(new ZipEntry(source.getPath()));
-            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
-                zip.write(out.readAllBytes());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static ArgsName validation(String[] args) {
+        ArgsName arguments = ArgsName.of(args);
+        if (args.length != 3) {
+            throw new IllegalArgumentException("Incorrect number of arguments.");
         }
+        if (Files.notExists(Paths.get(arguments.get("d")))) {
+            throw new IllegalArgumentException(String.format("Directory %s does not exist!", arguments.get("d")));
+        }
+        return arguments;
     }
 
     /**
@@ -39,19 +39,15 @@ public class Zip {
      * @param args -d=data -e=.log -o=project.zip
      */
     public static void main(String[] args) {
-        ArgsName arguments = ArgsName.of(args);
+        ArgsName arguments = validation(args);
         String directory = arguments.get("d");
         String extension = arguments.get("e");
         String output = arguments.get("o");
 
-        if (Files.notExists(Paths.get(directory))) {
-            throw new IllegalArgumentException(String.format("Directory %s does not exist!", directory));
-        }
-
         try {
             List<Path> sources = Search.search(
                     Paths.get(directory),
-                    path -> path.toFile().getName().endsWith(extension)
+                    path -> !path.toFile().getName().endsWith(extension)
             );
             packFiles(sources, new File(output));
         } catch (IOException e) {
