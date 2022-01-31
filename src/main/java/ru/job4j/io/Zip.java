@@ -34,7 +34,10 @@ public class Zip {
         }
     }
 
-    // Example of args: -d=data -e=.log -o=project.zip
+    /**
+     * Архивирование файлов.
+     * @param args -d=data -e=.log -o=project.zip
+     */
     public static void main(String[] args) {
         ArgsName arguments = ArgsName.of(args);
         String directory = arguments.get("d");
