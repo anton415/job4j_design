@@ -31,6 +31,9 @@ public class Zip {
         if (Files.notExists(Paths.get(arguments.get("d")))) {
             throw new IllegalArgumentException(String.format("Directory %s does not exist!", arguments.get("d")));
         }
+        if (!arguments.get("e").startsWith(".")) {
+            throw new IllegalArgumentException("Extension must starts with \".\"!");
+        }
         return arguments;
     }
 
