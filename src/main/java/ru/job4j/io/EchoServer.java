@@ -8,7 +8,7 @@ public class EchoServer {
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
             String clientMessage = "";
-            while (!"Bye".equals(clientMessage)) {
+            while (!"Exit".equals(clientMessage)) {
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
@@ -19,6 +19,11 @@ public class EchoServer {
                         if (str.contains("?msg")) {
                             String[] strings = str.split(" ");
                             clientMessage = strings[1].substring(strings[1].indexOf("=") + 1);
+                            if ("Hello".equals(clientMessage)) {
+                                out.write("Hello, dear friend.".getBytes());
+                            } else {
+                                out.write("What?".getBytes());
+                            }
                         }
                     }
                     out.flush();
