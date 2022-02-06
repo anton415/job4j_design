@@ -59,20 +59,28 @@ public class CSVReader {
         if ("stdout".equals(out)) {
             StringBuilder lineForPrint = new StringBuilder();
             for (int i = 0; i < result.size();) {
-                lineForPrint.append(result.get(i++));
-                lineForPrint.append(delimiter);
-                lineForPrint.append(result.get(i++));
-                System.out.println(lineForPrint);
+                for (int j = 0; j < requiredColumnIndexes.size(); j++) {
+                    lineForPrint.append(result.get(i++));
+                    if (j == requiredColumnIndexes.size() - 1) {
+                        System.out.println(lineForPrint);
+                    } else {
+                        lineForPrint.append(delimiter);
+                    }
+                }
                 lineForPrint.setLength(0);
             }
         } else {
             try (PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(out)))) {
                 StringBuilder lineForPrint = new StringBuilder();
                 for (int i = 0; i < result.size();) {
-                    lineForPrint.append(result.get(i++));
-                    lineForPrint.append(delimiter);
-                    lineForPrint.append(result.get(i++));
-                    writer.println(lineForPrint);
+                    for (int j = 0; j < requiredColumnIndexes.size(); j++) {
+                        lineForPrint.append(result.get(i++));
+                        if (j == requiredColumnIndexes.size() - 1) {
+                            writer.println(lineForPrint);
+                        } else {
+                            lineForPrint.append(delimiter);
+                        }
+                    }
                     lineForPrint.setLength(0);
                 }
             } catch (Exception e) {
