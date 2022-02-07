@@ -7,19 +7,17 @@ import org.slf4j.LoggerFactory;
 import ru.job4j.io.UsageLog4j;
 import ru.job4j.question.User;
 
-import java.io.*;
-import java.nio.file.Files;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Computer {
     private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
     private static final long serialVersionUID = 1L;
-    // поля булево, какой-нибудь числовой тип, строковый тип, вложенный объект и массив.
-    private boolean isTurnOn = true;
-    private int age = 5;
-    private String color = "Silver";
-    private User user = new User(0, "Anton");
-    private String[] programs = new String[] {"Chrome", "IDEA", "Terminal"};
+    private boolean isTurnOn;
+    private int age;
+    private String color;
+    private User user;
+    private String[] programs;
 
     public Computer(boolean isTurnOn, int age, String color, User user, String[] programs) {
         this.isTurnOn = isTurnOn;
@@ -37,11 +35,9 @@ public class Computer {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         final Computer computer = new Computer(true, 5, "Silver", new User(0, "Anton"), new String[] {"Chrome", "IDEA"});
-        /* Преобразуем объект computer в json-строку. */
         final Gson gson = new GsonBuilder().create();
         LOG.debug(gson.toJson(computer));
 
-        /* Модифицируем json-строку */
         final String computerJson =
                 "{"
                         + "\"isTurnOn\":true,"
