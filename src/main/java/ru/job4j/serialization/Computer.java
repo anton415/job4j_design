@@ -4,14 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.io.UsageLog4j;
 import ru.job4j.question.User;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 public class Computer {
-    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(Computer.class.getName());
     private static final long serialVersionUID = 1L;
     private boolean isTurnOn;
     private int age;

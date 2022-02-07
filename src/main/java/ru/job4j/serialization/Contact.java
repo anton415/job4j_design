@@ -4,10 +4,9 @@ import java.io.*;
 import java.nio.file.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.io.UsageLog4j;
 
 public class Contact implements Serializable {
-    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(Contact.class.getName());
     private static final long serialVersionUID = 1L;
     private final int zipCode;
     private final String phone;
