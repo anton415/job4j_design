@@ -44,6 +44,46 @@ public class Computer {
                 + ", programs=" + Arrays.toString(programs) + '}';
     }
 
+    public boolean isTurnOn() {
+        return isTurnOn;
+    }
+
+    public void setTurnOn(boolean turnOn) {
+        isTurnOn = turnOn;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String[] getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(String[] programs) {
+        this.programs = programs;
+    }
+
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         final Computer computer = new Computer(true, 5, "Silver", new User(0, "Anton"), new String[] {"Chrome", "IDEA"});
         final Gson gson = new GsonBuilder().create();
