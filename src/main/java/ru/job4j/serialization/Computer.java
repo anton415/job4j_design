@@ -6,17 +6,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.question.User;
 
+import javax.xml.bind.annotation.*;
 import java.io.IOException;
 import java.util.Arrays;
 
+@XmlRootElement(name = "computer")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Computer {
     private static final Logger LOG = LoggerFactory.getLogger(Computer.class.getName());
     private static final long serialVersionUID = 1L;
+    @XmlAttribute
     private boolean isTurnOn;
+    @XmlAttribute
     private int age;
+    @XmlAttribute
     private String color;
+    @XmlElement(name = "user")
     private User user;
+    @XmlElementWrapper(name = "programs")
+    @XmlElement(name = "program")
     private String[] programs;
+
+    public Computer() {
+    }
 
     public Computer(boolean isTurnOn, int age, String color, User user, String[] programs) {
         this.isTurnOn = isTurnOn;
