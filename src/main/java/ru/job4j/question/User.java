@@ -32,6 +32,11 @@ public class User {
         return Objects.hash(id, name);
     }
 
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", name='" + name + '\'' + '}';
+    }
+
     public int getId() {
         return id;
     }
