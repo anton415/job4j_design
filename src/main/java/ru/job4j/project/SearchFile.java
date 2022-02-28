@@ -10,8 +10,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Программа для поиска файла.
@@ -32,14 +35,23 @@ public class SearchFile {
         String type = arguments.get("t");
         String output = arguments.get("o");
 
-        Path directoryPath = Paths.get(directory);
-        List<Path> pathList = search(directoryPath, path -> path.toFile().getName().equals(name));
-        if ("name".equals(type)) {
-            pathList = search(directoryPath, path -> path.toFile().getName().equals(name));
-        } else if ("mask".equals(type)) {
-            pathList = search(directoryPath, path -> path.toFile().getName().endsWith(name));
-        }
+        Predicate<Path> predicate = getPredicate(type, name);
+        List<Path> pathList = search(Paths.get(directory), predicate);
         writeDataInFile(output, pathList);
+    }
+
+    private static Predicate<Path> getPredicate(String type, String name) {
+        Predicate<Path> predicate = x -> false;
+        if ("mask".equals(type)) {
+            name = name.replace("*", ".*");
+            name = name.replace("?", ".");
+            Pattern pattern = Pattern.compile(name);
+            predicate = path -> pattern.matcher(path.getFileName().toString()).find();
+        } else if ("name".equals(type)) {
+            String finalArgValue = name;
+            predicate = path -> path.getFileName().toString().equals(finalArgValue);
+        }
+        return predicate;
     }
 
     public static void writeDataInFile(String output, List<Path> pathList) {
