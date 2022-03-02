@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.account</OriginalElement>
+  <nodes>
+    <node x="181.0" y="128.0">fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.computers_accounts</node>
+    <node x="411.0" y="128.0">fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.input_source</node>
+    <node x="0.0" y="128.0">fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.phone_number</node>
+    <node x="297.0" y="0.0">fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.computer</node>
+    <node x="123.0" y="0.0">fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.account</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.computers_accounts" target="fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.computer" relationship="REFERENCES">
+      <point x="52.5" y="-50.0" />
+      <point x="338.5" y="103.0" />
+      <point x="374.0" y="103.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.computers_accounts" target="fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.account" relationship="REFERENCES">
+      <point x="-52.5" y="-50.0" />
+      <point x="233.5" y="103.0" />
+      <point x="200.0" y="103.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.phone_number" target="fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.account" relationship="REFERENCES">
+      <point x="0.0" y="-50.0" />
+      <point x="80.5" y="103.0" />
+      <point x="200.0" y="103.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.input_source" target="fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.computer" relationship="REFERENCES">
+      <point x="0.0" y="-50.0" />
+      <point x="493.5" y="103.0" />
+      <point x="374.0" y="103.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="292.5" y="114.0" />
+  <SelectedNodes>
+    <node>fa18d226-a443-4f50-811e-ddd74324ea26.TABLE:computer.public.account</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
