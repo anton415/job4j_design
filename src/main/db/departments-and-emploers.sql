@@ -67,9 +67,10 @@ CREATE TABLE teens(
 
 insert into teens(name, gender) values('Ivan', 'Male');
 insert into teens(name, gender) values('Vera', 'Female');
-insert into teens(name, gender) values('Alex', 'Transgender');
-insert into teens(name, gender) values('Max', 'Neutral');
+insert into teens(name, gender) values('Alex', 'Male');
+insert into teens(name, gender) values('Max', 'Male');
 
-select t1.name, t2.gender
-from teens as t1
-cross join teens as t2;
+select m.name as male, f.name as female
+from teens m
+cross join teens f
+where m.gender != f.gender;
