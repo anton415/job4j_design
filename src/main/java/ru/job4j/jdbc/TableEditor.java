@@ -159,7 +159,7 @@ public class TableEditor implements AutoCloseable {
     }
 
     public static void main(String[] args) throws Exception {
-        try(TableEditor tableEditor = new TableEditor()) {
+        try (TableEditor tableEditor = new TableEditor()) {
             String tableName = "demo_table";
             String columnName = "demo_column";
             String newColumnName = "new_demo_column";
