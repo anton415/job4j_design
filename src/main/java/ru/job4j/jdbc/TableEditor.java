@@ -2,12 +2,14 @@ package ru.job4j.jdbc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.io.Config;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 import java.util.StringJoiner;
 
 /**
@@ -24,12 +26,17 @@ public class TableEditor implements AutoCloseable {
 
     private void initConnection() {
         String path = "data/app.properties";
-        Config config = new Config(path);
-        config.load();
+        Properties properties = new Properties();
 
-        String url = config.value("postgres.url");
-        String login = config.value("postgres.login");
-        String password = config.value("postgres.password");
+        try (FileReader fileReader = new FileReader(path)) {
+            properties.load(fileReader);
+        } catch (IOException e) {
+            LOG.error("Exception in properties load: ", e);
+        }
+
+        String url = properties.getProperty("postgres.url");
+        String login = properties.getProperty("postgres.login");
+        String password = properties.getProperty("postgres.password");
 
         try {
             this.connection = DriverManager.getConnection(url, login, password);
