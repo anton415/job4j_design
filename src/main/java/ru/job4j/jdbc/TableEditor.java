@@ -17,26 +17,18 @@ import java.util.StringJoiner;
  */
 public class TableEditor implements AutoCloseable {
     private static final Logger LOG = LoggerFactory.getLogger(TableEditor.class.getName());
-
     private Connection connection;
+    private Properties properties;
 
-    public TableEditor() {
+    public TableEditor(Properties properties) {
+        this.properties = properties;
         initConnection();
     }
 
     private void initConnection() {
-        String path = "data/app.properties";
-        Properties properties = new Properties();
-
-        try (FileReader fileReader = new FileReader(path)) {
-            properties.load(fileReader);
-        } catch (IOException e) {
-            LOG.error("Exception in properties load: ", e);
-        }
-
-        String url = properties.getProperty("postgres.url");
-        String login = properties.getProperty("postgres.login");
-        String password = properties.getProperty("postgres.password");
+        String url = this.properties.getProperty("postgres.url");
+        String login = this.properties.getProperty("postgres.login");
+        String password = this.properties.getProperty("postgres.password");
 
         try {
             this.connection = DriverManager.getConnection(url, login, password);
@@ -45,36 +37,41 @@ public class TableEditor implements AutoCloseable {
         }
     }
 
+    private void executeStatement(String sql) {
+        try {
+            try (Statement statement = this.connection.createStatement()) {
+                statement.execute(sql);
+            }
+        } catch (SQLException e) {
+            LOG.error("Exception in execute statement: ", e);
+        }
+    }
+
     /**
      * Создает пустую таблицу без столбцов с указанным именем.
      * @param tableName - имя таблицы.
      */
     public void createTable(String tableName) throws SQLException {
-        try (Statement statement = this.connection.createStatement()) {
-          String sql = String.format(
-            "create table if not exists %s(%s, %s);",
-            tableName,
-            "id serial primary key",
-            "name text"
-          );
-          statement.execute(sql);
-          LOG.info(getTableScheme(this.connection, tableName));
-        }
-
+        String sql = String.format(
+                "create table if not exists %s(%s, %s);",
+                tableName,
+                "id serial primary key",
+                "name text"
+        );
+        executeStatement(sql);
+        LOG.info(getTableScheme(this.connection, tableName));
     }
 
     /**
      * Удаляет таблицу по указанному имени.
      * @param tableName - имя таблицы.
      */
-    public void dropTable(String tableName) throws SQLException {
-        try (Statement statement = this.connection.createStatement()) {
-          String sql = String.format(
-            "drop table %s;",
-            tableName
-          );
-          statement.execute(sql);
-        }
+    public void dropTable(String tableName) {
+        String sql = String.format(
+                "drop table %s;",
+                tableName
+        );
+        executeStatement(sql);
     }
 
     /**
@@ -87,16 +84,14 @@ public class TableEditor implements AutoCloseable {
      * @param type - тип колонки.
      */
     public void addColumn(String tableName, String columnName, String type) throws SQLException {
-        try (Statement statement = this.connection.createStatement()) {
-          String sql = String.format(
-            "ALTER TABLE %s ADD COLUMN IF NOT EXISTS %s %s;",
-            tableName,
-            columnName,
-            type
-          );
-          statement.execute(sql);
-          LOG.info(getTableScheme(this.connection, tableName));
-        }
+        String sql = String.format(
+                "ALTER TABLE %s ADD COLUMN IF NOT EXISTS %s %s;",
+                tableName,
+                columnName,
+                type
+        );
+        executeStatement(sql);
+        LOG.info(getTableScheme(this.connection, tableName));
     }
 
     /**
@@ -107,15 +102,13 @@ public class TableEditor implements AutoCloseable {
      * @param columnName - имя колонки.
      */
     public void dropColumn(String tableName, String columnName) throws SQLException {
-        try (Statement statement = this.connection.createStatement()) {
-          String sql = String.format(
-            "ALTER TABLE %s DROP %s;",
-            tableName,
-            columnName
-          );
-          statement.execute(sql);
-          LOG.info(getTableScheme(this.connection, tableName));
-        }
+        String sql = String.format(
+                "ALTER TABLE %s DROP %s;",
+                tableName,
+                columnName
+        );
+        executeStatement(sql);
+        LOG.info(getTableScheme(this.connection, tableName));
     }
 
     /**
@@ -126,17 +119,14 @@ public class TableEditor implements AutoCloseable {
      * @param newColumnName - новое имя колонки.
      */
     public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
-        try (Statement statement = this.connection.createStatement()) {
-          String sql = String.format(
-            "ALTER TABLE %s RENAME COLUMN %s TO %s;",
-            tableName,
-            columnName,
-            newColumnName
-          );
-          statement.execute(sql);
-          LOG.info(getTableScheme(this.connection, tableName));
-        }
-
+        String sql = String.format(
+                "ALTER TABLE %s RENAME COLUMN %s TO %s;",
+                tableName,
+                columnName,
+                newColumnName
+        );
+        executeStatement(sql);
+        LOG.info(getTableScheme(this.connection, tableName));
     }
 
     public static String getTableScheme(Connection connection, String tableName) throws SQLException {
@@ -166,7 +156,16 @@ public class TableEditor implements AutoCloseable {
     }
 
     public static void main(String[] args) throws Exception {
-        try (TableEditor tableEditor = new TableEditor()) {
+        Properties properties = new Properties();
+        String path = "data/app.properties";
+
+        try (FileReader fileReader = new FileReader(path)) {
+            properties.load(fileReader);
+        } catch (IOException e) {
+            LOG.error("Exception in properties load: ", e);
+        }
+
+        try (TableEditor tableEditor = new TableEditor(properties)) {
             String tableName = "demo_table";
             String columnName = "demo_column";
             String newColumnName = "new_demo_column";
