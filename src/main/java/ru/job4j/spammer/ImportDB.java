@@ -26,8 +26,11 @@ public class ImportDB {
             int index = 0;
             bufferedReader.lines().forEach(line -> {
                 String[] userAsArray = line.split(";", 3);
-                users.add(index, new User(userAsArray[0], userAsArray[1]));
-
+                if (userAsArray.length == 3 && !userAsArray[0].isEmpty() && !userAsArray[1].isEmpty()) {
+                    users.add(index, new User(userAsArray[0], userAsArray[1]));
+                } else {
+                    throw new IllegalArgumentException("Убедитесь, что в массиве точно 2 элемента и они не пустые");
+                }
             });
         } catch (Exception e) {
             LOG.error("Exception in file reader: ", e);
