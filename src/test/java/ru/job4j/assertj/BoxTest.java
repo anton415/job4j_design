@@ -1,6 +1,8 @@
 package ru.job4j.assertj;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.withPrecision;
+import org.assertj.core.data.Percentage;
 import org.junit.jupiter.api.Test;
 
 class BoxTest {
@@ -78,13 +80,21 @@ class BoxTest {
     void whenAreaSphere() {
         Box box = new Box(0, 10);
         double area = box.getArea();
-        assertThat(area).isEqualTo(1256.6370614359173);
+        assertThat(area).isEqualTo(1256.63d, withPrecision(0.01d))
+            .isCloseTo(1256.64d, withPrecision(0.01d))
+            .isCloseTo(1256.64d, Percentage.withPercentage(1.0d))
+            .isGreaterThan(1256.63d)
+            .isLessThan(1256.64d);
     }
 
     @Test
     void whenAreaTetrahedron() {
         Box box = new Box(4, 10);
         double area = box.getArea();
-        assertThat(area).isEqualTo(173.20508075688772);
+        assertThat(area).isEqualTo(173.20d, withPrecision(0.01d))
+            .isCloseTo(173.20d, withPrecision(0.01d))
+            .isCloseTo(173.20d, Percentage.withPercentage(1.0d))
+            .isGreaterThan(173.19d)
+            .isLessThan(173.21d);
     }
 }
