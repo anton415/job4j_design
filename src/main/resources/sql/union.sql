@@ -38,10 +38,12 @@ SELECT b.title
 FROM books b
 EXCEPT 
 SELECT m.name
-FROM movies m
+FROM movies m;
 
 -- выведите все уникальные названия произведений из таблиц movies и books 
 -- (т.е фильмы, которые сняты не по книге, и книги без экранизации)
 SELECT m.name FROM movies m
-UNION
+UNION ALL
 SELECT b.title FROM books b
+EXCEPT SELECT m.name FROM movies m
+INTERSECT SELECT b.title FROM books b;
